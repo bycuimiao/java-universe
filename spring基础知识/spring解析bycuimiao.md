@@ -18,3 +18,7 @@ spring Environment对象里面的东西，就是用下面两个方法取到的�
 (Map) System.getProperties()
 (Map) System.getenv()
 具体的东西大概包括 project的目录，用户所属国家，操作系统版本，jvm版本，环境变量等等系统层面的一些数据
+
+4、
+Resource接口，这个接口是spring资源的接口。spring通过暴露这个接口，屏蔽了各种资源文件的细节。这个接口的实现类都可以加载InputStream(如果
+exists in physical，也就是exists()为true)，但只有指定的部分实现类可以加载URL和File
