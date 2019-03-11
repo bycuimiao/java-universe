@@ -14,7 +14,15 @@
     答：单线程。Redis是单进程单线程的网络模型，用的是epoll,poll,select网络模型，这些网络模型都是单线程处理网络请求
 ###7、redis支持的数据类型
     答：String、Hash、List、Set、zset
-###7、
+###7、redis的内部数据类型有哪些
+    答：
+    dict        http://zhangtielei.com/posts/blog-redis-dict.html
+    sds         http://zhangtielei.com/posts/blog-redis-sds.html
+    robj        http://zhangtielei.com/posts/blog-redis-robj.html
+    ziplist     http://zhangtielei.com/posts/blog-redis-ziplist.html
+    quicklist   http://zhangtielei.com/posts/blog-redis-quicklist.html
+    skiplist    http://zhangtielei.com/posts/blog-redis-skiplist.html
+    intset      http://zhangtielei.com/posts/blog-redis-intset.html
 ###7、
 ###7、
 ###7、
