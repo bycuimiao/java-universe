@@ -36,10 +36,123 @@
     quicklist   http://zhangtielei.com/posts/blog-redis-quicklist.html
     skiplist    http://zhangtielei.com/posts/blog-redis-skiplist.html
     intset      http://zhangtielei.com/posts/blog-redis-intset.html
-###7、
-###7、
-###7、
-###7、
-###7、
-###7、
-###7、
+###8、Java线程池有哪些核心参数？都是什么含义？
+	public ThreadPoolExecutor(int corePoolSize,
+                                  int maximumPoolSize,
+                                  long keepAliveTime,
+                                  TimeUnit unit,
+                                  BlockingQueue<Runnable> workQueue,
+                                  ThreadFactory threadFactory,
+                                  RejectedExecutionHandler handler)
+	corePoolSize、maximumPoolSize、keepAliveTime、unit、workQueue、threadFactory、handler
+	corePoolSize：核心线程数
+		* 核心线程会一直存活，及时没有任务需要执行
+		* 当线程数小于核心线程数时，即使有线程空闲，线程池也会优先创建新线程处理
+		* 设置allowCoreThreadTimeout=true（默认false）时，核心线程会超时关闭
+		在创建了线程池后，默认情况下，线程池中并没有任何线程，而是等待有任务到来才创建线程去执行任务，除非调用了prestartAllCoreThreads()
+		或者prestartCoreThread()方法，从这2个方法的名字就可以看出，是预创建线程的意思，即在没有任务到来之前就创建corePoolSize个线程或者
+		一个线程。默认情况下，在创建了线程池后，线程池中的线程数为0，当有任务来之后，就会创建一个线程去执行任务，当线程池中的线程数目达到
+		corePoolSize后，就会把到达的任务放到缓存队列当中
+	maximumPoolSize：最大线程数
+		* 当线程数>=corePoolSize，且任务队列已满时。线程池会创建新线程来处理任务
+		* 当线程数=maxPoolSize，且任务队列已满时，线程池会拒绝处理任务而抛出异常	
+	keepAliveTime：线程空闲时间
+		* 当线程空闲时间达到keepAliveTime时，线程会退出，直到线程数量=corePoolSize
+		* 如果allowCoreThreadTimeout=true，则会直到线程数量=0
+	unit：TimeUnit枚举类型的值，代表keepAliveTime时间单位
+	allowCoreThreadTimeout(这个参数不是在构造方法中设置，可以单独通过allowCoreThreadTimeOut(boolean value)设置)：允许核心线程超时
+	workQueue：阻塞队列，用来存储等待执行的任务，决定了线程池的排队策略，有以下几种实现
+		ArrayBlockingQueue;
+	　　LinkedBlockingQueue;
+	　　SynchronousQueue;
+	threadFactory：线程工厂，用来创建线程
+		创建线程时使用该工厂方法
+	handler：任务拒绝处理器
+		* 两种情况会拒绝处理任务：
+			- 当线程数已经达到maxPoolSize，切队列已满，会拒绝新任务
+			- 当线程池被调用shutdown()后，会等待线程池里的任务执行完毕，再shutdown。如果在调用shutdown()和线程池真正shutdown之间提交任务，会拒绝新任务
+		* 线程池会调用rejectedExecutionHandler来处理这个任务。如果没有设置默认是AbortPolicy，会抛出异常
+		* ThreadPoolExecutor类有几个内部实现类来处理这类情况：
+			- AbortPolicy 丢弃任务，抛运行时异常
+			- CallerRunsPolicy 执行任务
+			- DiscardPolicy 忽视，什么都不会发生
+			- DiscardOldestPolicy 从队列中踢出最先进入队列（最后一个执行）的任务
+		* 实现RejectedExecutionHandler接口，可自定义处理器
+	除了这些构建线程池需要的参数外，还有一些比较重要的成员变量
+	private int largestPoolSize;   //用来记录线程池中曾经出现过的最大线程数
+	private long completedTaskCount;   //用来记录已经执行完毕的任务个数
+	private volatile int   poolSize;       //线程池中当前的线程数 ps:这个成员变量在1.8中已经移除，但依然可以通过getPoolSize()方法获取当前线程池线程数
+###9、常用的线程池有哪些？
+	newCachedThreadPool
+    newFixedThreadPool 
+    newScheduledThreadPool 
+    newSingleThreadExecutor 
+###10、事务的基本要素是什么？
+	ACID
+	原子性（Atomicity）：
+		事务开始后所有操作，要么全部做完，要么全部不做，不可能停滞在中间环节。事务执行过程中出错，会回滚到事务开始前的状态，
+		所有的操作就像没有发生一样。也就是说事务是一个不可分割的整体，就像化学中学过的原子，是物质构成的基本单位。
+    一致性（Consistency）：
+    	事务开始前和结束后，数据库的完整性约束没有被破坏 。比如A向B转账，不可能A扣了钱，B却没收到。
+    隔离性（Isolation）：
+    	同一时间，只允许一个事务请求同一数据，不同的事务之间彼此没有任何干扰。比如A正在从一张银行卡中取钱，在A取钱的过程结束前，B不能向这张卡转账。
+    持久性（Durability）：
+    	事务完成后，事务对数据库的所有更新将被保存到数据库，不能回滚。
+###11、mysql有哪些事务隔离级别
+	http://www.cnblogs.com/huanongying/p/7021555.html
+	脏读：
+		事务A读取了事务B更新的数据，然后B回滚操作，那么A读取到的数据是脏数据
+	不可重复读：
+		事务 A 多次读取同一数据，事务 B 在事务A多次读取的过程中，对数据作了更新并提交，导致事务A多次读取同一数据时，结果 不一致。
+	幻读：
+		系统管理员A将数据库中所有学生的成绩从具体分数改为ABCDE等级，但是系统管理员B就在这个时候插入了一条具体分数的记录，
+		当系统管理员A改结束后发现还有一条记录没有改过来，就好像发生了幻觉一样，这就叫幻读。
+	小结：
+		不可重复读的和幻读很容易混淆，不可重复读侧重于修改，幻读侧重于新增或删除。解决不可重复读的问题只需锁住满足条件的行，解决幻读需要锁表
+	事务隔离级别					脏读		不可重复读	幻读
+    读未提交（read-uncommitted）	是		是			是
+    不可重复读（read-committed）	否		是			是
+    可重复读（repeatable-read）	否		否			是
+    串行化（serializable）		否		否			否
+    mysql默认的事务隔离级别为repeatable-read
+###12、JVM的内部体系结构分为几部分
+	三部分：类装载器（ClassLoader）子系统，运行时数据区，和执行引擎。
+###13、Zookeeper有几种znode类型
+	PERSISTENT - 持久化目录节点 
+    	客户端与zookeeper断开连接后，该节点依旧存在 
+    PERSISTENT_SEQUENTIAL - 持久化顺序编号目录节点 
+    	客户端与zookeeper断开连接后，该节点依旧存在，只是Zookeeper给该节点名称进行顺序编号 
+    EPHEMERAL - 临时目录节点 
+    	客户端与zookeeper断开连接后，该节点被删除 
+    EPHEMERAL_SEQUENTIAL - 临时顺序编号目录节点 
+    	客户端与zookeeper断开连接后，该节点被删除，只是Zookeeper给该节点名称进行顺序编号 
+###14、Zookeeper可以做什么？
+	1.命名服务   2.配置管理   3.集群管理   4.分布式锁  5.队列管理
+	https://www.cnblogs.com/felixzh/p/5869212.html
+###15、zk是基于CAP的哪两个原则设计的？
+	答：CP原则
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+	
