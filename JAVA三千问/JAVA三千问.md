@@ -112,7 +112,7 @@
 	事务隔离级别					脏读		不可重复读	幻读
     读未提交（read-uncommitted）	是		是			是
     不可重复读（read-committed）	否		是			是
-    可重复读（repeatable-read）	否		否			是
+    可重复读（repeatable-read）	否		否			是  标准的rr是无法解决幻读的，但Innodb使用gap(间隙锁)解决了这个问题。next-key locks
     串行化（serializable）		否		否			否
     mysql默认的事务隔离级别为repeatable-read
 ###12、JVM的内部体系结构分为几部分
@@ -131,11 +131,30 @@
 	https://www.cnblogs.com/felixzh/p/5869212.html
 ###15、zk是基于CAP的哪两个原则设计的？
 	答：CP原则
-###15、
-###15、
-###15、
-###15、
-###15、
+###15、什么是MVCC  
+	ps：mysql经典好文 	https://blog.csdn.net/u012817635/article/details/80585901
+						https://www.cnblogs.com/likui360/p/9632641.html
+	MVCC，Multi-Version Concurrency Control，多版本并发控制。MVCC 是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问；
+	在编程语言中实现事务内存。
+	如果有人从数据库中读数据的同时，有另外的人写入数据，有可能读数据的人会看到『半写』或者不一致的数据。有很多种方法来解决这个问题，叫做并发
+	控制方法。最简单的方法，通过加锁，让所有的读者等待写者工作完成，但是这样效率会很差。MVCC 使用了一种不同的手段，每个连接到数据库的读者，
+	在某个瞬间看到的是数据库的一个快照，写者写操作造成的变化在写操作完成之前（或者数据库事务提交之前）对于其他的读者来说是不可见的。
+	(注：与MVCC相对的，是基于锁的并发控制，Lock-Based Concurrency Control)
+	MVCC最大的好处，相信也是耳熟能详：读不加锁，读写不冲突。
+###16、mysql默认搜索引擎，RR(可重复读)事务隔离级别会不会出现幻读？
+	不会。innodb使用gap(间隙锁)机制next-key locks解决了幻读问题。
+###17、mysql的默认事务隔离级别是什么？
+	mysql的事务隔离级别是可重复读
+###18、innodb默认锁是什么？
+	是Next-Key Locks，就是Record lock和gap lock的结合，即除了锁住记录本身，还要再锁住索引之间的间隙。
+	Record lock
+		单条索引记录上加锁，record lock锁住的永远是索引，而非记录本身，即使该表上没有任何索引，那么innodb会在后台创建一个隐藏的聚集主键
+	索引，那么锁住的就是这个隐藏的聚集主键索引。所以说当一条sql没有走任何索引时，那么将会在每一条聚集索引后面加X锁，这个类似于表锁，但原理
+	上和表锁应该是完全不同的。
+    Gap lock
+    	在索引记录之间的间隙中加锁，或者是在某一条索引记录之前或者之后加锁，并不包括该索引记录本身。gap lock的机制主要是解决可重复读模式下
+    的幻读问题
+###19、注意！mvcc是读取的，gap是你插入的时候，有可能只有record lock，有可能是record lock + gap
 ###15、
 ###15、
 ###15、
