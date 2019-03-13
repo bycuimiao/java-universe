@@ -212,12 +212,61 @@
 	Synchronized是非公平锁，可重入。且不能设置为公平锁。且是独享锁。
 	ReentrantLock默认是公平锁，可通过构造方法指定为非公平锁。可重入。独享锁。
 	ReadWriteLock，其读锁是共享锁，其写锁是独享锁
-###15、
-###15、
-###15、
-###15、
-###15、
-###15、
+###15、分布式事务的两个理论是什么？
+	CAP - 
+		一致性(Consistency) ： 客户端知道一系列的操作都会同时发生(生效)
+        可用性(Availability) ： 每个操作都必须以可预期的响应结束
+        分区容错性(Partition tolerance) ： 即使出现单个组件无法可用,操作依然可以完成
+	BASE - 
+		Basically Available（基本可用）
+        Soft state（软状态）
+        Eventually consistent（最终一致性）
+    BASE理论是对CAP中的一致性和可用性进行一个权衡的结果，理论的核心思想就是：我们无法做到强一致，但每个应用都可以根据自身的业务特点，采用
+    适当的方式来使系统达到最终一致性（Eventual consistency）。
+###15、分布式事务解决方案？
+	https://www.cnblogs.com/savorboard/p/distributed-system-transaction-consistency.html
+	两阶段提交（2PC）
+		在XA协议中包含着两个角色：事务协调者和事务参与者
+		存在部分问题，1.性能问题2.协调者单点故障问题3.丢失消息导致的不一致问题。
+		ps：三阶段提交增加了CanCommit阶段，并且引入了超时机制
+	补偿事务（TCC）
+		Try 阶段主要是对业务系统做检测及资源预留
+        Confirm 阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行 Confirm阶段时，默认 Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。
+        Cancel 阶段主要是在业务执行错误，需要回滚的状态下执行的业务取消，预留资源释放。
+        优点： 跟2PC比起来，实现以及流程相对简单了一些，但数据的一致性比2PC也要差一些
+        缺点： 缺点还是比较明显的，在2,3步中都有可能失败。TCC属于应用层的一种补偿方式，所以需要程序员在实现的时候多写很多补偿的代码，在一
+        些场景中，一些业务流程可能用TCC不太好定义及处理。
+    本地消息表（异步确保）
+    MQ 事务消息
+###15、mysql事务问题
+	而事务的 ACID 是通过 InnoDB 日志和锁来保证。事务的隔离性是通过数据库锁的机制实现的，持久性通过 Redo Log（重做日志）来实现，原子性和
+	一致性通过 Undo Log 来实现。Undo Log 的原理很简单，为了满足事务的原子性，在操作任何数据之前，首先将数据备份到一个地方（这个存储数据
+	备份的地方称为 Undo Log）。然后进行数据的修改。如果出现了错误或者用户执行了 Rollback 语句，系统可以利用 Undo Log 中的备份将数据恢
+	复到事务开始之前的状态。 和 Undo Log 相反，Redo Log 记录的是新数据的备份。在事务提交前，只要将 Redo Log 持久化即可，不需要将数据持
+	久化。当系统崩溃时，虽然数据没有持久化，但是 Redo Log 已经持久化。系统可以根据 Redo Log 的内容，将所有数据恢复到最新的状态。对具体实
+	现过程有兴趣的同学可以去自行搜索扩展。
+###15、线程池有什么作用?
+	线程复用;控制最大并发数;管理线程
+###15、springMvc请求流程？
+	https://www.cnblogs.com/leskang/p/6101368.html
+	https://www.jianshu.com/p/6f841d81ed72
+	第一步：发起请求到前端控制器(DispatcherServlet)
+    第二步：前端控制器请求HandlerMapping查找 Handler （可以根据xml配置、注解进行查找）
+    第三步：处理器映射器HandlerMapping向前端控制器返回Handler，HandlerMapping会把请求映射为HandlerExecutionChain对象（包含一个
+    	   Handler处理器（页面控制器）对象，多个HandlerInterceptor拦截器对象），通过这种策略模式，很容易添加新的映射策略
+    第四步：前端控制器调用处理器适配器去执行Handler
+    第五步：处理器适配器HandlerAdapter将会根据适配的结果去执行Handler
+    第六步：Handler执行完成给适配器返回ModelAndView
+    第七步：处理器适配器向前端控制器返回ModelAndView （ModelAndView是springmvc框架的一个底层对象，包括 Model和view）
+    第八步：前端控制器请求视图解析器去进行视图解析 （根据逻辑视图名解析成真正的视图(jsp)），通过这种策略很容易更换其他视图技术，只需要更改
+    	   视图解析器即可
+    第九步：视图解析器向前端控制器返回View
+    第十步：前端控制器进行视图渲染 （视图渲染将模型数据(在ModelAndView对象中)填充到request域）
+    第十一步：前端控制器向用户响应结果
+###15、一次完整的Http请求过程
+	https://blog.csdn.net/zjkC050818/article/details/78345819
+	域名解析 --> 发起TCP的3次握手 --> 建立TCP连接后发起http请求 --> 服务器响应http请求，浏览器得到html代码 --> 浏览器解析html代码，
+	并请求html代码中的资源（如js、css、图片等） --> 浏览器对页面进行渲染呈现给用户
 ###15、
 ###15、
 ###15、
