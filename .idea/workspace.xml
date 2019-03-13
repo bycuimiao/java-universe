@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="61ee3cbd-4497-4bed-883b-5697cd096c20" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JAVA三千问/JAVA三千问.md" beforeDir="false" afterPath="$PROJECT_DIR$/JAVA三千问/JAVA三千问.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -54,7 +55,7 @@
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="FIRST">
               <first_editor relative-caret-position="75">
-                <caret line="5" column="83" selection-start-line="5" selection-start-column="83" selection-end-line="5" selection-end-column="83" />
+                <caret line="5" column="83" lean-forward="true" selection-start-line="5" selection-start-column="48" selection-end-line="5" selection-end-column="83" />
               </first_editor>
               <second_editor />
             </state>
@@ -75,9 +76,19 @@
         <entry file="file://$PROJECT_DIR$/JAVA三千问/JAVA三千问.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="FIRST">
-              <first_editor relative-caret-position="294">
-                <caret line="154" column="77" lean-forward="true" selection-start-line="154" selection-start-column="77" selection-end-line="154" selection-end-column="77" />
+              <first_editor relative-caret-position="242">
+                <caret line="295" column="10" selection-start-line="295" selection-start-column="10" selection-end-line="295" selection-end-column="10" />
               </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JVM解析.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JVM基础知识(1.7&amp;1.8)/JVM解析.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor />
               <second_editor />
             </state>
           </provider>
@@ -143,8 +154,8 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="19" />
-    <option name="y" value="32" />
+    <option name="x" value="13" />
+    <option name="y" value="31" />
     <option name="width" value="1414" />
     <option name="height" value="814" />
   </component>
@@ -195,16 +206,6 @@
               <item name="java-universe" type="b2602c69:ProjectViewProjectNode" />
               <item name="java-universe" type="462c0819:PsiDirectoryNode" />
               <item name="mysql高级知识" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-universe" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-universe" type="462c0819:PsiDirectoryNode" />
-              <item name="缓存基础知识" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-universe" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-universe" type="462c0819:PsiDirectoryNode" />
-              <item name="集合基础知识(1.7&amp;1.8)" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -303,7 +304,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23015000" />
+    <option name="totallyTimeSpent" value="40314000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1440" height="831" extended-state="6" />
@@ -320,10 +321,10 @@
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32970026" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.34059945" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.34059945" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20886981" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20886981" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -368,16 +369,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/spring基础知识/spring编程风格.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="60">
-            <caret line="4" selection-start-line="4" selection-end-line="4" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/读书笔记/《码出高效》读书笔记.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -832,8 +823,16 @@
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
           <first_editor relative-caret-position="75">
-            <caret line="5" column="83" selection-start-line="5" selection-start-column="83" selection-end-line="5" selection-end-column="83" />
+            <caret line="5" column="83" lean-forward="true" selection-start-line="5" selection-start-column="48" selection-end-line="5" selection-end-column="83" />
           </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JVM基础知识(1.7&amp;1.8)/JVM解析.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
           <second_editor />
         </state>
       </provider>
@@ -841,8 +840,8 @@
     <entry file="file://$PROJECT_DIR$/JAVA三千问/JAVA三千问.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
-          <first_editor relative-caret-position="294">
-            <caret line="154" column="77" lean-forward="true" selection-start-line="154" selection-start-column="77" selection-end-line="154" selection-end-column="77" />
+          <first_editor relative-caret-position="242">
+            <caret line="295" column="10" selection-start-line="295" selection-start-column="10" selection-end-line="295" selection-end-column="10" />
           </first_editor>
           <second_editor />
         </state>
