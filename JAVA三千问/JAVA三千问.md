@@ -294,6 +294,220 @@
 	复制算法
 	标记-整理算法
 	分代收集算法
+###15、IP报文里面的TTL有什么用？
+	TTL协议由源主机设置，每经过一个路由节点，TTL减1，当TTL为0时，数据包被丢弃，发送ICMP报文给主机，防止主机无休止的发送报文。
+###15、什么是ICMP协议
+	ICMP协议是检测网络是否通畅、主机是否可达、路由是否可以用等网络运行状态的协议。
+###15、简述三次握手
+	A机器 --> SYN=1 , seq=x 					--> B机器
+	A机器 <-- SYN=1 , ACK=1 seq=y , ack=x+1 <-- B机器
+	A机器 --> ack=1 , seq=x+1 , ack=y+1		--> B机器
+	ps:seq为序列化，ack为确认序列化，SYN和ACK是TCP报文FLAG位标志，SYN用做建立连接时的同步信号；ACK用于对收到的数据进行确认。
+###15、什么是SOA
+	SOA（Service Oriented Architecture）“面向服务的架构”:他是一种设计方法，其中包含多个服务， 服务之间通过相互依赖最终提供一系列的功能。
+	一个服务 通常以独立的形式存在与操作系统进程中。各个服务之间 通过网络调用。
+###15、服务治理
+	服务治理领域最重要的问题就是服务发现与注册
+	dubbo就是一个带有服务治理功能的RPC框架，提供了一套较为完整的服务治理方案
+###15、dubbo协议
+	https://blog.csdn.net/fuyuwei2015/article/details/72848310
+	Dubbo缺省的dubbo协议采用单一长连接和NIO异步通讯，适合于小数据量大并发的服务调用，以及服务消费者机器数远大于服务提供者机器数的情况。
+	dubbo协议的序列化协议是Hessian二进制序列化
+###15、HashMap
+	http://www.importnew.com/28263.html
+###15、HTTPS默认端口是？
+	HTTPS的默认端口号是443
+###15、HTTP无状态的特性是什么意思？
+	HTTP协议是一个无状态的协议，同一个客户端的这次请求和上次请求是没有对应关系。为了解决这个问题， Web程序引入了Cookie机制来维护状态.
+###15、HTTP状态码
+	HTTP/1.1中定义了5类状态码， 状态码由三位数字组成，第一个数字定义了响应的类别
+    1XX  提示信息 - 表示请求已被成功接收，继续处理
+    2XX  成功 - 表示请求已被成功接收，理解，接受
+    3XX  重定向 - 要完成请求必须进行更进一步的处理
+    4XX  客户端错误 -  请求有语法错误或请求无法实现
+    5XX  服务器端错误 -   服务器未能实现合法的请求
+    
+    304 Not Modified    代表上次的文档已经被缓存了， 还可以继续使用，
+    400 Bad Request  客户端请求与语法错误，不能被服务器所理解
+    403 Forbidden 服务器收到请求，但是拒绝提供服务
+    404 Not Found
+    500 Internal Server Error 服务器发生了不可预期的错误
+    503 Server Unavailable 服务器当前不能处理客户端的请求，一段时间后可能恢复正常
+
+###15、HTTP Request header有哪些？
+	https://www.cnblogs.com/rayray/p/3729533.html  ps:通篇干货
+	Cache头域
+		-----------
+		If-Modified-Since
+		作用： 把浏览器端缓存页面的最后修改时间发送到服务器去，服务器会把这个时间与服务器上实际文件的最后修改时间进行对比。如果时间一致，那么返
+		回304，客户端就直接使用本地缓存文件。如果时间不一致，就会返回200和新的文件内容。客户端接到之后，会丢弃旧文件，把新文件缓存起来，并显示
+		在浏览器中.
+		例如：If-Modified-Since: Thu, 09 Feb 2012 09:07:57 GMT
+		-----------
+		If-None-Match
+		作用: If-None-Match和ETag一起工作，工作原理是在HTTP Response中添加ETag信息。 当用户再次请求该资源时，将在HTTP Request 中加入
+		If-None-Match信息(ETag的值)。如果服务器验证资源的ETag没有改变（该资源没有更新），将返回一个304状态告诉客户端使用本地缓存文件。否则
+		将返回200状态和新的资源和Etag.  使用这样的机制将提高网站的性能
+		例如: If-None-Match: "03f2b33c0bfcc1:0"
+		-----------
+		Pragma
+		作用： 防止页面被缓存， 在HTTP/1.1版本中，它和Cache-Control:no-cache作用一模一样
+		Pargma只有一个用法， 例如： Pragma: no-cache
+		-----------
+		Cache-Control
+        作用: 这个是非常重要的规则。 这个用来指定Response-Request遵循的缓存机制。各个指令含义如下
+        Cache-Control:Public   可以被任何缓存所缓存（）
+        Cache-Control:Private     内容只缓存到私有缓存中
+        Cache-Control:no-cache  所有内容都不会被缓存
+    ---------------
+	Client头域
+		-----------
+		Accept
+        作用： 浏览器端可以接受的媒体类型,
+        例如：  Accept: text/html  代表浏览器可以接受服务器回发的类型为 text/html  也就是我们常说的html文档,
+        如果服务器无法返回text/html类型的数据,服务器应该返回一个406错误(non acceptable)
+        通配符 * 代表任意类型
+        例如  Accept: */*  代表浏览器可以处理所有类型,(一般浏览器发给服务器都是发这个)
+        -----------
+        Accept-Encoding：
+        作用： 浏览器申明自己接收的编码方法，通常指定压缩方法，是否支持压缩，支持什么压缩方法（gzip，deflate），（注意：这不是只字符编码）;
+        例如： Accept-Encoding: gzip, deflate
+        -----------
+        Accept-Language
+        作用： 浏览器申明自己接收的语言。 
+        语言跟字符集的区别：中文是语言，中文有多种字符集，比如big5，gb2312，gbk等等；
+        例如： Accept-Language: en-us
+        -----------
+        User-Agent
+        作用：告诉HTTP服务器， 客户端使用的操作系统和浏览器的名称和版本.
+        我们上网登陆论坛的时候，往往会看到一些欢迎信息，其中列出了你的操作系统的名称和版本，你所使用的浏览器的名称和版本，这往往让很多人感到
+        很神奇，实际上，服务器应用程序就是从User-Agent这个请求报头域中获取到这些信息User-Agent请求报头域允许客户端将它的操作系统、浏览器和
+        其它属性告诉服务器。
+        例如： User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; CIBA; .NET CLR 2.0.50727; .NET 
+        CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET4.0C; InfoPath.2; .NET4.0E)
+        -----------
+        Accept-Charset
+        作用：浏览器申明自己接收的字符集，这就是本文前面介绍的各种字符集和字符编码，如gb2312，utf-8（通常我们说Charset包括了相应的字符编码方案）；
+    ---------------
+    Cookie/Login 头域
+    	Cookie:
+        作用： 最重要的header, 将cookie的值发送给HTTP 服务器
+    ---------------
+    Entity头域
+    	-----------
+    	Content-Length
+        作用：发送给HTTP服务器数据的长度。
+        例如： Content-Length: 38
+        -----------
+        Content-Type
+        作用：
+        例如：Content-Type: application/x-www-form-urlencoded
+    ---------------
+    Miscellaneous 头域
+    	Referer:
+        作用： 提供了Request的上下文信息的服务器，告诉服务器我是从哪个链接过来的，比如从我主页上链接到一个朋友那里，他的服务器就能够从
+        HTTP Referer中统计出每天有多少用户点击我主页上的链接访问他的网站。
+        例如: Referer:http://translate.google.cn/?hl=zh-cn&tab=wT
+    ---------------
+    Transport 头域 
+    	-----------
+    	Connection
+        例如：　Connection: keep-alive   当一个网页打开完成后，客户端和服务器之间用于传输HTTP数据的TCP连接不会关闭，如果客户端再次访问
+        这个服务器上的网页，会继续使用这一条已经建立的连接
+        例如：  Connection: close  代表一个Request完成后，客户端和服务器之间用于传输HTTP数据的TCP连接会关闭， 当客户端再次发送Request，
+        需要重新建立TCP连接。
+        -----------
+        Host（发送请求时，该报头域是必需的）
+        作用: 请求报头域主要用于指定被请求资源的Internet主机和端口号，它通常从HTTP URL中提取出来的
+        例如: 我们在浏览器中输入：http://www.guet.edu.cn/index.html
+        浏览器发送的请求消息中，就会包含Host请求报头域，如下：
+        Host：http://www.guet.edu.cn
+        此处使用缺省端口号80，若指定了端口号，则变成：Host：指定端口号
+###15、HTTP Response header有哪些
+	Cache头域
+		-----------
+		Date
+        作用:  生成消息的具体时间和日期
+        例如：　Date: Sat, 11 Feb 2012 11:35:14 GMT 
+        -----------
+    	Expires    
+    	作用: 浏览器会在指定过期时间内使用本地缓存
+        例如: Expires: Tue, 08 Feb 2022 11:35:14 GMT
+        -----------
+        Vary
+        作用：
+        例如: Vary: Accept-Encoding
+    Cookie/Login 头域
+    	-----------
+    	P3P
+        作用: 用于跨域设置Cookie, 这样可以解决iframe跨域访问cookie的问题
+        例如: P3P: CP=CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR    
+        -----------
+        Set-Cookie
+        作用： 非常重要的header, 用于把cookie 发送到客户端浏览器， 每一个写入cookie都会生成一个Set-Cookie.
+        例如: Set-Cookie: sc=4c31523a; path=/; domain=.acookie.taobao.com
+    Entity头域
+    	-----------
+    	ETag
+        作用:  和If-None-Match 配合使用。（实例请看上节中If-None-Match的实例）
+        例如: ETag: "03f2b33c0bfcc1:0"
+        -----------
+        Last-Modified
+        作用： 用于指示资源的最后修改日期和时间。（实例请看上节的If-Modified-Since的实例）
+        例如: Last-Modified: Wed, 21 Dec 2011 09:09:10 GMT
+        -----------
+        Content-Type
+        作用：WEB服务器告诉浏览器自己响应的对象的类型和字符集,
+        例如:
+        Content-Type: text/html; charset=utf-8
+        Content-Type: image/jpeg
+        -----------
+        Content-Length
+        指明实体正文的长度，以字节方式存储的十进制数字来表示。在数据下行的过程中，Content-Length的方式要预先在服务器中缓存所有数据，然后所有数据再一股脑儿地发给客户端。
+        例如: Content-Length: 19847
+        -----------
+        Content-Encoding
+        WEB服务器表明自己使用了什么压缩方法（gzip，deflate）压缩响应中的对象。
+        例如：Content-Encoding：gzip
+        -----------
+        Content-Language
+        作用： WEB服务器告诉浏览器自己响应的对象的语言者
+        例如： Content-Language:da
+    Miscellaneous 头域
+    	Server:
+        作用：指明HTTP服务器的软件信息
+        例如:Server: Microsoft-IIS/7.5
+        X-Powered-By:
+        作用：表示网站是用什么技术开发的
+        例如： X-Powered-By: ASP.NET
+	Transport头域
+		Connection
+        例如：　Connection: keep-alive   当一个网页打开完成后，客户端和服务器之间用于传输HTTP数据的TCP连接不会关闭，如果客户端再次访问
+        这个服务器上的网页，会继续使用这一条已经建立的连接
+        例如：  Connection: close  代表一个Request完成后，客户端和服务器之间用于传输HTTP数据的TCP连接会关闭， 当客户端再次发送Request，
+        需要重新建立TCP连接。
+    Location头域
+    	Location
+        作用： 用于重定向一个新的位置, 包含新的URL地址
+        实例请看304状态实例
+###15、HTTP协议是无状态的和Connection: keep-alive的区别
+	无状态是指协议对于事务处理没有记忆能力，服务器不知道客户端是什么状态。从另一方面讲，打开一个服务器上的网页和你之前打开这个服务器上的网页
+	之间没有任何联系
+    HTTP是一个无状态的面向连接的协议，无状态不代表HTTP不能保持TCP连接，更不能代表HTTP使用的是UDP协议（无连接）
+    从HTTP/1.1起，默认都开启了Keep-Alive，保持连接特性，简单地说，当一个网页打开完成后，客户端和服务器之间用于传输HTTP数据的TCP连接不会
+    关闭，如果客户端再次访问这个服务器上的网页，会继续使用这一条已经建立的连接
+    Keep-Alive不会永久保持连接，它有一个保持时间，可以在不同的服务器软件（如Apache）中设定这个时间
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
+###15、
 ###15、
 ###15、
 ###15、
