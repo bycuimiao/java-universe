@@ -160,11 +160,22 @@
 ###21、缓存击穿应对方案有哪些？
 	最靠谱的就是布隆过滤器。guava有布隆过滤器的实现
 	或者互斥锁排队，就是在redis读库的时候加锁，保证没有大量请求同时访问数据库	
-###22、布隆过滤器原理
+###22、布隆过滤器原理  非常惊艳的算法
 	https://www.jianshu.com/p/2104d11ee0a2
 	本质上布隆过滤器是一种数据结构，比较巧妙的概率型数据结构（probabilistic data structure），特点是高效地插入和查询，可以用来告诉你 
 	“某样东西一定不存在或者可能存在”。
     相比于传统的 List、Set、Map 等数据结构，它更高效、占用空间更少，但是缺点是其返回的结果是概率性的，而不是确切的。
+    BitMap
+    默认误判率3%
+    应用
+    黑名单
+    	比如邮件黑名单过滤器，判断邮件地址是否在黑名单中
+    排序(仅限于BitSet)
+    	仔细想想，其实BitSet在set(int value)的时候，“顺便”把value也给排序了。
+    网络爬虫
+    	判断某个URL是否已经被爬取过
+    K-V系统快速判断某个key是否存在
+    	典型的例子有Hbase，Hbase的每个Region中都包含一个BloomFilter，用于在查询时快速判断某个key在该region中是否存在，如果不存在，直接返回，节省掉后续的查询。
 ###23、为什么HashMap的长度的2的N次幂
 	http://www.importnew.com/16301.html
 	因为&运算的效率高于%运算，保持N次幂是11111111
@@ -176,7 +187,7 @@
 	synchronized (this) {
 	            System.out.println("Method 1 start");
 	}
-	同步块的情况，底层语义是monitorenter和monitorenter
+	同步块的情况，底层语义是montorenter和monitorenter
 	public synchronized void method() {
              System.out.println("Hello World!");
     }
@@ -597,19 +608,45 @@
 	信息通信采用http是不安全的，存在信息劫持、篡改的风险，https是加密传输，是安全的通信，对于https加密的过程，我们首先介绍的对称加密，采用
 	对称加密进行通信存在秘钥协商过程的不安全性，因此我们采用了非对称加密算法解决了对协商过程的加密，因此https是集对称加密和非对称加密为一体
 	的加密过程
-###65、
-###15、
-###15、
-###15、
-###15、
-###15、
-###15、
-###15、
-###15、
-###15、
-###15、
-###15、
-###15、
+###65、Linux ps命令
+	ps -l 
+		将目前属于您自己这次登入的 PID 与相关信息列示出来
+	ps aux
+		列出目前所有的正在内存当中的程序
+###15、怎么对命令进行取别名？
+	alias ll='ls -l'
+###15、mysql索引是B+tree(B加树)，和B-tree(B树)有什么区别
+	https://blog.csdn.net/pangchengyong0724/article/details/76168576
+###15、什么是微服务的无状态化？以及如何实现
+	https://blog.csdn.net/zysgdhf4253/article/details/80421701
+	把状态放在中间件中，保证业务模块的无状态化
+###15、nginx是几层负载均衡？
+	https://www.cnblogs.com/kevingrace/p/6137881.html
+	nginx可以做4层负载，也可以做7层负载，stream形式是4层负载。
+	七层负载均衡基本都是基于http协议的，适用于web服务器的负载均衡。（nginx）
+    四层负载均衡主要是基于tcp协议报文，可以做任何基于tcp/ip协议的软件的负载均衡。(haproxy、LVS)
+###15、公钥私钥数据签名理解
+	https://www.cnblogs.com/shenkebky/p/8461841.html
+	公钥加密，私钥解密。
+    私钥数字签名，公钥验证。
+###15、RSA公钥加密算法原理？
+	RSA算法基于一个十分简单的数论事实：将两个大素数相乘十分容易，但那时想要对其乘积进行因式分解却极其困难，因此可以将乘积公开作为加密密钥。
+###15、kafka和rabbitmq对比与消息队列选型？
+	https://blog.csdn.net/u013256816/article/details/79838428
+	kafka支持消息回溯，多用于日志系统
+	rabbitmq功能性更好
+###15、RabbitMQ的Broker组成？
+	Broker主要由Exchange和Queue组成
+	Exchange负责接收消息、转发消息到绑定的队列；Queue存储消息，提供持久化、队列等功能。AMQP客户端通过Channel与Broker通信，Channel是多
+	路复用连接中的一条独立的双向数据流通道。
+###15、一致性Hash原理，以及用途
+	https://www.cnblogs.com/lpfuture/p/5796398.html
+	解决分布式缓存问题
+	环形解决分布式缓存核心问题(节点变动)；虚拟节点，解决数据倾斜问题
+###15、HTTP中Get与Post的区别
+	根据HTTP规范，GET用于信息获取，而且应该是安全的和幂等的
+###15、有哪些防止哈希冲突的办法
+###15、快排最坏情况的数据特征是什么样子
 ###15、
 ###15、
 	
