@@ -1,7 +1,14 @@
 oyo面试题
-以下面试题，是朋友去面试的一点经验，仅提供您参考，必要的时候，面试官可能会提供纸笔，写一下代码逻辑。不同的面试官风格不太一样，具体情况以现场面试的情况为准。切忌下面的题不能泄漏，每一道题都是为了帮您通过面试，要认真准备，有点题不尽只要会思路，必要时手写也要能写出来才行。
+以下面试题，是朋友去面试的一点经验，仅提供您参考，必要的时候，面试官可能会提供纸笔，写一下代码逻辑。不同的面试官风格不太一样，具体情况以现场
+面试的情况为准。切忌下面的题不能泄漏，每一道题都是为了帮您通过面试，要认真准备，有点题不尽只要会思路，必要时手写也要能写出来才行。
 准备：首先准备两段自己认为比较拿的出手的两段代码，面试时，面试官有可能让你写一小段熟悉的代码，十行左右。
-
+https://blog.csdn.net/u012817635/article/details/79917674
+```
+public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+    Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+    return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+  }
+```
 1、HashMap和ConcurrentHashMap区别和实现
 
 2、线程池种类
