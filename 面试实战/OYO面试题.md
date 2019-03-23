@@ -9,10 +9,18 @@ public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtr
     return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
   }
 ```
-1、HashMap和ConcurrentHashMap区别和实现
-
-2、线程池种类
-
+###1、HashMap和ConcurrentHashMap区别和实现
+    线程安全
+    ConcurrentHashMap 1.7分段锁，1.8CAS
+###2、线程池种类
+    FixedThreadPool，特点：固定池子中线程的个数。使用静态方法newFixedThreadPool()创建线程池的时候指定线程池个数
+    CachedThreadPool（弹性缓存线程池），特点：用newCachedThreadPool()方法创建该线程池对象，创建之初里面一个线程都没有，当execute方法
+    或submit方法向线程池提交任务时，会自动新建线程；如果线程池中有空余线程，则不会新建；这种线程池一般最多情况可以容纳几万个线程，里面的线
+    程空余60s会被回收。
+    SingleThreadPool（单线程线程池），特点：池中只有一个线程，如果扔5个任务进来，那么有4个任务将排队；作用是保证任务的顺序执行
+    ScheduledThreadpool（定时器线程池）
+    WorkStealingPool
+    ForkJoinPool
 3、Hash一致性算法
 
 4、如何保证分布式事务一致性
