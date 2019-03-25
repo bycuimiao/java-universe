@@ -131,3 +131,16 @@ int sum(int m, int n)//递归
 44.手写阻塞队列
 45.http缓冲 http协议 缓存
 46.空间复杂度与时间复杂度
+
+50.数据库中，男女字段适合加索引么？mysql,oracle对此问题可能有区别
+###51.二叉树时间复杂度，和hash表的时间复杂度区别
+    二叉树O(logn)
+    哈希表O(1) 
+    各种数据结构的时间复杂度：
+    https://blog.csdn.net/ted_cs/article/details/82881831
+52.CAS是什么
+53.java1.7和java1.8中hashmap有什么区别
+54.b+树状索引
+55.画一个b+tree和 b-tree的结构，他们的区别是什么
+56.volatile原理
+57.分布式锁redis的实现
