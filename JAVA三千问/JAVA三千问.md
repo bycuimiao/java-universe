@@ -83,11 +83,6 @@
 	private int largestPoolSize;   //用来记录线程池中曾经出现过的最大线程数
 	private long completedTaskCount;   //用来记录已经执行完毕的任务个数
 	private volatile int   poolSize;       //线程池中当前的线程数 ps:这个成员变量在1.8中已经移除，但依然可以通过getPoolSize()方法获取当前线程池线程数
-###9、常用的线程池有哪些？
-	newCachedThreadPool
-    newFixedThreadPool 
-    newScheduledThreadPool 
-    newSingleThreadExecutor 
 ###10、事务的基本要素是什么？
 	ACID
 	原子性（Atomicity）：
@@ -653,4 +648,10 @@
     1.类级别的泛型
     2. 方法级别的泛型
     3.属性或变量级别的泛型
+###设计原则有哪些
+    单一职责原则
+    开闭原则
+    里氏替换原则
+    依赖倒置原则
+    接口隔离原则
 	
