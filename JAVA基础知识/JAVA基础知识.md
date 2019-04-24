@@ -5,3 +5,7 @@
 #2、java的泛型是假泛型。
   	ps:如何插入泛型外的元素
 #3、transient 关键字 与 序列化
+
+###4、Java 检查异常（checked exception）和未检查异常（unchecked exception）区别理解
+
+###4静态块抛出异常相关
