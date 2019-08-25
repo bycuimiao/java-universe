@@ -42,8 +42,25 @@
     intset
     dict
 ##5、zset
-    skiplist
+    dict 存储key-value key-score
+    skiplist 存储key-score List
+    当数据较少时，sorted set是由一个ziplist来实现的。
+    当数据多的时候，sorted set是由一个dict + 一个skiplist来实现的。简单来讲，dict用来查询数据到分数的对应关系，而skiplist用来根据分数查询数据（可能是范围查找）。
     https://blog.csdn.net/yellowriver007/article/details/79021103
+    
+    有序集合对象的编码可以是ziplist或者skiplist。同时满足以下条件时使用ziplist编码：
+    元素数量小于128个
+    所有member的长度都小于64字节
+    以上两个条件的上限值可通过zset-max-ziplist-entries和zset-max-ziplist-value来修改。
+    ziplist编码的有序集合使用紧挨在一起的压缩列表节点来保存，第一个节点保存member，第二个保存score。ziplist内的集合元素按score从小到大排序，score较小的排在表头位置。
+    skiplist编码的有序集合底层是一个命名为zset的结构体，而一个zset结构同时包含一个字典和一个跳跃表。跳跃表按score从小到大保存所有集合元素。而字典则保存着从member到score的映射，这样就可以用O(1)的复杂度来查找member对应的score值。虽然同时使用两种结构，但它们会通过指针来共享相同元素的member和score，因此不会浪费额外的内存。
+    
+    https://www.jianshu.com/p/cc379427ef9d
+    
+    很重要的博客！！
+    https://www.jianshu.com/p/fb7547369655
+    skiplist作为zset的存储结构，整体存储结构如下图，核心点主要是包括一个dict对象和一个skiplist对象。dict保存key/value，key为元素，value为分值；skiplist保存的有序的元素列表，每个元素包括元素和分值。两种数据结构下的元素指向相同的位置。
+    
 ##6、stream
     Redis 5.0 又引入了一个新的数据结构 listpack
     listpack 的设计彻底消灭了 ziplist 存在的级联更新行为，元素与元素之间完全独立，不会因为一个元素的长度变长就导致后续的元素内容会受到影响。
