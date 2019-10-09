@@ -660,3 +660,30 @@
 
 ###15、zk的选举过程
 ###15、spring的事务传播机制
+
+###16、KMP算法
+    概要：http://www.ruanyifeng.com/blog/2013/05/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm.html
+    深入：http://wiki.jikexueyuan.com/project/kmp-algorithm/define.html
+    "部分匹配"的实质是，有时候，字符串头部和尾部会有重复。比如，"ABCDAB"之中有两个"AB"，那么它的"部分匹配值"就是2（"AB"的长度）。
+    搜索词移动的时候，第一个"AB"向后移动4位（字符串长度-部分匹配值），就可以来到第二个"AB"的位置。
+###16、AQS默认是独享模型还是共享模型
+    This class supports either or both a default <em>exclusive</em> mode and a <em>shared</em> mode.
+    默认是独享
+    Usually, implementation subclasses support only
+     * one of these modes, but both can come into play for example in a
+     * {@link ReadWriteLock}. Subclasses that support only exclusive or
+     * only shared modes need not define the methods supporting the unused mode.
+    但ReadWriteLock是唯一支持两种模型的子类
+###16、线程的同步时可以使一个线程阻塞而等待一个信号，同时放弃锁使其他线程可以能竞争到锁。在synchronized中我们可以使用Object的wait()和notify方法实现这种等待和唤醒，但是在Lock中怎么实现这种wait和notify呢
+    实现Condition接口，AQS里面的内部类ConditionObject就是做这个的
+###16、什么是CLH锁？
+    CLH(Craig, Landin, and Hagersten  locks): 是一个自旋锁，能确保无饥饿性，提供先来先服务的公平性。
+    CLH锁也是一种基于链表的可扩展、高性能、公平的自旋锁，申请线程只在本地变量上自旋，它不断轮询前驱的状态，如果发现前驱释放了锁就结束自旋。
+###16、
+###16、
+###16、
+###16、
+###16、
+###16、
+###16、
+    
