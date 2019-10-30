@@ -1,0 +1,6 @@
+*.log
+*.temp
+*.swp
+*.iml
+*.class
+/.idea
