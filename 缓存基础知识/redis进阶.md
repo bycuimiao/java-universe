@@ -76,3 +76,5 @@
     时间事件（time event）：server定时或周期性运行的事件。比如，定期运行RDB持久化。
     在这里我们主要关注Redis处理文件事件的模型。
     https://www.bbsmax.com/A/WpdKLLEozV/
+    主观下线
+    客观下线
