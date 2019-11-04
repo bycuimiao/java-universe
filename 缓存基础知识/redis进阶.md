@@ -68,13 +68,13 @@
     扩展LRU是什么？
     redis、mysql、java对LRU的实现的不同的区别？
 ##7
-    https://www.bbsmax.com/A/Vx5M7qaGzN/
-    Redis除了处理client的命令请求还有诸如RDB持久化、AOF重写这种事情要做。而在做这些事情的时候，Redis会fork子进程去完毕。但对于acceptclient连接、处理client请求、返回命令结果等等这些。Redis是使用主进程及主线程来完毕的。
-    https://www.bbsmax.com/A/Vx5M7qaGzN/
-    文件事件（file event）：Redisclient通过socket与Redisserver连接，而文件事件就是server对套接字操作的抽象。
-    比如，client发了一个GET命令请求。对于Redisserver来说就是一个文件事件。
-    时间事件（time event）：server定时或周期性运行的事件。比如，定期运行RDB持久化。
-    在这里我们主要关注Redis处理文件事件的模型。
-    https://www.bbsmax.com/A/WpdKLLEozV/
-    主观下线
-    客观下线
+https://www.bbsmax.com/A/Vx5M7qaGzN/  
+Redis除了处理client的命令请求还有诸如RDB持久化、AOF重写这种事情要做。而在做这些事情的时候，Redis会fork子进程去完毕。但对于acceptclient连接、处理client请求、返回命令结果等等这些。Redis是使用主进程及主线程来完毕的。  
+https://www.bbsmax.com/A/Vx5M7qaGzN/  
+文件事件（file event）：Redisclient通过socket与Redisserver连接，而文件事件就是server对套接字操作的抽象。  
+比如，client发了一个GET命令请求。对于Redisserver来说就是一个文件事件。  
+时间事件（time event）：server定时或周期性运行的事件。比如，定期运行RDB持久化。  
+在这里我们主要关注Redis处理文件事件的模型。  
+https://www.bbsmax.com/A/WpdKLLEozV/  
+主观下线  
+客观下线  
