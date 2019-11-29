@@ -15,3 +15,7 @@
  				移除时逻辑：自增修改次数modCount(并发修改时根据这个字段进行判断并fastfail，注意，在新增元素导致扩容时候也会对modCount进行自增)，
   ##2、扩容方法
 #b、线程安全
+
+
+为什么ArrayList是可序列化的，但elementData字段却被transient修饰？
+writeObject 和 readObject方法
