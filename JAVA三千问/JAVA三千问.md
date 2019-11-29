@@ -681,6 +681,9 @@
     CLH锁也是一种基于链表的可扩展、高性能、公平的自旋锁，申请线程只在本地变量上自旋，它不断轮询前驱的状态，如果发现前驱释放了锁就结束自旋。
 ###16、为什么ArrayList是可序列化的，但elementData字段却被transient修饰？
       writeObject 和 readObject方法
+      序列化时需要使用 ObjectOutputStream 的 writeObject() 将对象转换为字节流并输出。而 writeObject() 方法在传入的对象存在 writeObject() 的时候会去反射调用该对象的 writeObject() 来实现序列化。反序列化使用的是 ObjectInputStream 的 readObject() 方法，原理类似。
+      是为了保证只序列化实际存储的那些元素，而不是整个数组，从而节省空间和时间。
+      为了性能考虑，只序列化里面的元素，空余的槽位不需要序列化。
 ###16、
 ###16、
 ###16、
