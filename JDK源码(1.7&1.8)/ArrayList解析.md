@@ -21,4 +21,13 @@
 writeObject 和 readObject方法  
 序列化时需要使用 ObjectOutputStream 的 writeObject() 将对象转换为字节流并输出。而 writeObject() 方法在传入的对象存在 writeObject() 的时候会去反射调用该对象的 writeObject() 来实现序列化。反序列化使用的是 ObjectInputStream 的 readObject() 方法，原理类似。
 是为了保证只序列化实际存储的那些元素，而不是整个数组，从而节省空间和时间。    
-为了性能考虑，只序列化里面的元素，空余的槽位不需要序列化。  
+为了性能考虑，只序列化里面的元素，空余的槽位不需要序列化。
+
+
+jdk bug  
+c.toArray might (incorrectly) not return Object[] (see 6260652)  
+https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6260652   
+已修复  
+
+
+trimToSize()方法可以让不变的list节省内存，将数组size设置为list的长度
