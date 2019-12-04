@@ -22,3 +22,33 @@ writeObject 和 readObject方法
 序列化时需要使用 ObjectOutputStream 的 writeObject() 将对象转换为字节流并输出。而 writeObject() 方法在传入的对象存在 writeObject() 的时候会去反射调用该对象的 writeObject() 来实现序列化。反序列化使用的是 ObjectInputStream 的 readObject() 方法，原理类似。
 是为了保证只序列化实际存储的那些元素，而不是整个数组，从而节省空间和时间。    
 为了性能考虑，只序列化里面的元素，空余的槽位不需要序列化。  
+
+ArrayList扩容内存溢出判断条件是 minCapacity < 0 因为Integer.MAX_VALUE + 1溢出后为Integer.MIN_VALUE  
+因为int是32位二进制，首位0表示正数，1表示负数  
+Integer.MAX_VALUE = 1111111111111111111111111111111
+Integer.MIN_VALUE = 10000000000000000000000000000000
+在Integer.MAX_VALUE+1之后全部进位，导致首位从0变成1，从最大值变成最小值
+
+ArrayList定义数组最大长度 MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
+ps:但比较疑惑的是，在hugeCapacity()方法中，可以突破ArrayList的最大长度
+原因：https://stackoverflow.com/questions/35756277/why-the-maximum-array-size-of-arraylist-is-integer-max-value-8  
+##
+    The shape and structure of an array object, such as an array of int values, is similar to that of a standard Java object. The primary difference is that the array object has an additional piece of metadata that denotes the array's size. An array object's metadata, then, consists of: Class : A pointer to the class information, which describes the object type. In the case of an array of int fields, this is a pointer to the int[] class.
+    
+    Flags : A collection of flags that describe the state of the object, including the hash code for the object if it has one, and the shape of the object (that is, whether or not the object is an array).
+    
+    Lock : The synchronization information for the object — that is, whether the object is currently synchronized.
+    
+    Size : The size of the array.
+    
+    max size
+    
+    2^31 = 2,147,483,648 
+    as the Array it self needs 8 bytes to stores the size 2,147,483,648
+    
+    so
+    
+    2^31 -8 (for storing size ), 
+    so maximum array size is defined as Integer.MAX_VALUE - 8
+
+dd
