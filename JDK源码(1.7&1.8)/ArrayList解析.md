@@ -31,7 +31,10 @@ Integer.MIN_VALUE = 10000000000000000000000000000000
 
 ArrayList定义数组最大长度 MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
 ps:但比较疑惑的是，在hugeCapacity()方法中，可以突破ArrayList的最大长度
-原因：https://stackoverflow.com/questions/35756277/why-the-maximum-array-size-of-arraylist-is-integer-max-value-8  
+解释1：该值的设置用于表示数组的最大容量，由于一些虚拟机在数组中会保留一些头字。尝试分配较大的数组可能会导致内存不足错误， 也就是我们常说的内存溢出(VM内存限制)。
+Integer.MAX_VALUE-8 其实并不是ArrayList的真实的最大长度，最大长度仍为Integer.MAX_VALUE。 只不过 -8 的真正意义是为了减少不同平台因差异化实现的出错的几率。  
+官方注释的意思是：该值的设置用于表示数组的最大容量，由于一些虚拟机在数组中会保留一些头字。尝试分配较大的数组可能会导致内存不足错误， 也就是我们常说的内存溢出(VM内存限制)。
+解释2：https://stackoverflow.com/questions/35756277/why-the-maximum-array-size-of-arraylist-is-integer-max-value-8  
 ##
     The shape and structure of an array object, such as an array of int values, is similar to that of a standard Java object. The primary difference is that the array object has an additional piece of metadata that denotes the array's size. An array object's metadata, then, consists of: Class : A pointer to the class information, which describes the object type. In the case of an array of int fields, this is a pointer to the int[] class.
     
@@ -61,3 +64,6 @@ https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6260652
 
 
 trimToSize()方法可以让不变的list节省内存，将数组size设置为list的长度
+ 
+JDK私有方法fastRemove()不做参数校验，节约性能，是私有方法。
+对外暴露的public方法有各种校验，而私有方法则没有，这是一个JDK风格的一个细节，也是对public和private的深刻理解
