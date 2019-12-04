@@ -78,3 +78,7 @@ https://www.bbsmax.com/A/Vx5M7qaGzN/
 https://www.bbsmax.com/A/WpdKLLEozV/  
 主观下线  
 客观下线  
+
+redis BGSAVE做了哪些操作？
+  
+redis 支持主从链，即 一个主服务器A有一个从服务B,从服务器也有一个从服务器C  

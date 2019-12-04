@@ -51,4 +51,13 @@ ps:但比较疑惑的是，在hugeCapacity()方法中，可以突破ArrayList的
     2^31 -8 (for storing size ), 
     so maximum array size is defined as Integer.MAX_VALUE - 8
 
-dd
+为了性能考虑，只序列化里面的元素，空余的槽位不需要序列化。
+
+
+jdk bug  
+c.toArray might (incorrectly) not return Object[] (see 6260652)  
+https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6260652   
+已修复  
+
+
+trimToSize()方法可以让不变的list节省内存，将数组size设置为list的长度
