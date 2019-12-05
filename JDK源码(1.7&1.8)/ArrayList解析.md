@@ -17,7 +17,7 @@
 #b、线程安全
 
 
-为什么ArrayList是可序列化的，但elementData字段却被transient修饰？
+为什么ArrayList是可序列化的，但elementData字段和modCount字段却被transient修饰？
 writeObject 和 readObject方法  
 序列化时需要使用 ObjectOutputStream 的 writeObject() 将对象转换为字节流并输出。而 writeObject() 方法在传入的对象存在 writeObject() 的时候会去反射调用该对象的 writeObject() 来实现序列化。反序列化使用的是 ObjectInputStream 的 readObject() 方法，原理类似。
 是为了保证只序列化实际存储的那些元素，而不是整个数组，从而节省空间和时间。    
@@ -66,4 +66,12 @@ https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6260652
 trimToSize()方法可以让不变的list节省内存，将数组size设置为list的长度
  
 JDK私有方法fastRemove()不做参数校验，节约性能，是私有方法。
-对外暴露的public方法有各种校验，而私有方法则没有，这是一个JDK风格的一个细节，也是对public和private的深刻理解
+对外暴露的public方法有各种校验，而私有方法则没有，这是一个JDK风格的一个细节，也是对public和private的深刻理解  
+
+removeAll()和retainAll()底层用的是同一套逻辑batchRemove()
+
+ArrayList.Itr next()方法,迭代器里面用长度判断ConcurrentModificationException异常的抛出，是觉着只有并发情况，才会出现长度的变化
+
+subList()返回的是ArrayList的一个视图，subList修改会影响源list
+
+ArrayList大部分情况根据modCount == expectedModCount判断是否有并发，并决定是否抛出ConcurrentModificationException异常
