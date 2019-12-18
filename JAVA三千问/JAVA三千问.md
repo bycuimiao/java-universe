@@ -684,10 +684,22 @@
       序列化时需要使用 ObjectOutputStream 的 writeObject() 将对象转换为字节流并输出。而 writeObject() 方法在传入的对象存在 writeObject() 的时候会去反射调用该对象的 writeObject() 来实现序列化。反序列化使用的是 ObjectInputStream 的 readObject() 方法，原理类似。
       是为了保证只序列化实际存储的那些元素，而不是整个数组，从而节省空间和时间。
       为了性能考虑，只序列化里面的元素，空余的槽位不需要序列化。
-###16、
-###16、
-###16、
-###16、
-###16、
-###16、
-    
+###16、什么情况下double类型的数据运算会有精度丢失？
+    https://tool.oschina.net/hexconvert/  
+    https://blog.csdn.net/weixin_44259720/article/details/87010388  
+    https://blog.csdn.net/marco__/article/details/102515668  
+    https://blog.csdn.net/Ibelievesunshine/article/details/100076965  
+    https://jingyan.baidu.com/article/425e69e6e93ca9be15fc1626.html  
+    这个问题我们先要知道二进制小数是如何转换十进制的。
+    然后会发现二进制转换十进制的时候会产生循环，导致二进制无法停止，而double只有64位bit，后面多出的部分只能舍弃，造成精度丢失。
+    运算中，所有十进制小数都刚刚可以转换成64位以内的二进制的数，则精度不会丢失
+```java
+public class Temp08 {
+    public static void main(String[] args) {
+        //不会有误差，因为4.75在转换二进制的时候不会有精度损失
+        System.out.println(4.75 + 4.75 + 4.75);
+        //会有误差，因为4.2在转换二进制的时候会有精度损失
+        System.out.println(4.2 + 4.2 + 4.2);
+    }
+}
+```    
