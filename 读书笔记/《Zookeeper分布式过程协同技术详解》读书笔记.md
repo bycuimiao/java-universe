@@ -74,3 +74,20 @@ create -s 创建顺序节点
 
 6、对于ConnectionLossException异常，开发者要检查系统状态并合理恢复  
 
+第四章 —— 处理状态变化
+
+1、zk提供了处理变化的重要机制——监视点(watch)
+
+2、客户端设置的每个监视点与会话关联，如果会话超时，等待中的监视点将被删除
+
+3、单次触发会丢失事件。但将多个事件平摊到一个通知上具有积极的作用  
+ps:不太懂啊
+    
+4、zk事件类型(EventType):NodeCreated、NodeDeleted、NodeDataChanged、NodeChildrenChanged、None  
+None表示无事件发生，而是zk的会话状态发生了变化
+
+5、zk会话状态(KeeperState)：Disconnected、SyncConnected、AuthFailed、ConnectedReadOnly、SaslAuthenticated、Expired
+
+6、一旦设置监视点就无法移除。想要移除监视点只有两种方法，一是触发这个监视点，二是使其会话被关闭或者过期
+
+7、 
