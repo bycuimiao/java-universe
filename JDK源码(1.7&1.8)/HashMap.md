@@ -59,3 +59,79 @@ Iteration over
 3、一个树的链表还原阈值为什么是6？
 上一小节分析，可以知道，链表树化阀值是8，那么树还原为链表为什么是6而不是7呢？这是为了防止链表和树之间频繁的转换。如果是7的话，假设一个HashMap不停的插入、删除元素，链表个数一直在8左右徘徊，就会频繁树转链表、链表转树，效率非常低下。
     
+4、
+    /**
+     * The table, initialized on first use, and resized as
+     * necessary. When allocated, length is always a power of two.
+     * (We also tolerate length zero in some operations to allow
+     * bootstrapping mechanics that are currently not needed.)
+     */
+    transient Node<K,V>[] table;
+    table允许长度为0，以允许使用当前不需要的引导机制
+    initialized on first use 第一次使用的时候才会初始化，也就是put值的时候
+    
+5、
+modCount没有校验修改最大次数，如果超过最大次数，则为负数了
+但就算为负数，也不影响fast-fail，所以没有校验
+精妙的设计，校验该校验的，对于不必校验的值，就算溢出了，也不会影响
+
+5、
+```java
+public class HashMap<K,V> extends AbstractMap<K,V>
+    implements Map<K,V>, Cloneable, Serializable {
+        /**
+         * Implements Map.put and related methods
+         *
+         * @param hash hash for key
+         * @param key the key
+         * @param value the value to put
+         * @param onlyIfAbsent if true, don't change existing value
+         * @param evict if false, the table is in creation mode.
+         * @return previous value, or null if none
+         */
+        final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+                       boolean evict) {
+            //tab-map主结构 p-即将put的node n-tab的长度 i-即将插入的index
+            Node<K,V>[] tab; Node<K,V> p; int n, i;
+            // tab为null的话，初始化tab
+            if ((tab = table) == null || (n = tab.length) == 0)
+                n = (tab = resize()).length;
+            if ((p = tab[i = (n - 1) & hash]) == null)
+                tab[i] = newNode(hash, key, value, null);
+            else {
+                Node<K,V> e; K k;
+                if (p.hash == hash &&
+                    ((k = p.key) == key || (key != null && key.equals(k))))
+                    e = p;
+                else if (p instanceof TreeNode)
+                    e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
+                else {
+                    for (int binCount = 0; ; ++binCount) {
+                        if ((e = p.next) == null) {
+                            p.next = newNode(hash, key, value, null);
+                            if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                                treeifyBin(tab, hash);
+                            break;
+                        }
+                        if (e.hash == hash &&
+                            ((k = e.key) == key || (key != null && key.equals(k))))
+                            break;
+                        p = e;
+                    }
+                }
+                if (e != null) { // existing mapping for key
+                    V oldValue = e.value;
+                    if (!onlyIfAbsent || oldValue == null)
+                        e.value = value;
+                    afterNodeAccess(e);
+                    return oldValue;
+                }
+            }
+            ++modCount;
+            if (++size > threshold)
+                resize();
+            afterNodeInsertion(evict);
+            return null;
+        }
+    }
+```
